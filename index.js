@@ -29,3 +29,20 @@ function operate(operator, value1, value2){
         divide(value1, value2);
     }
 }
+
+let displayNumber = document.querySelectorAll(".number");
+let clearDisplay = document.querySelector(".clear");
+
+let display = document.querySelector("#display-values");
+
+displayNumber.forEach(button => {
+    button.addEventListener("click", () => {
+        display.style.color = "#2d3937";
+        display.textContent = button.textContent;
+      });
+});
+
+clearDisplay.addEventListener("click", () => {
+    display.style.color = "";
+    display.textContent = "0";
+})

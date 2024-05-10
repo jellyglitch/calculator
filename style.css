@@ -1,5 +1,6 @@
 body {
     background-color: #c4c4c4;
+    font-family: "VT323", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .calculator-container {
@@ -37,9 +38,9 @@ body {
 
 #display-values {
     padding: 0 0.5rem;
-    font-size: 60px;
+    font-size: 84px;
+    color: #728a87;
 }
-
 
 .button-containers {
     display: flex;
@@ -52,15 +53,29 @@ body {
     align-items: center;
     border-radius: 50%;
 
-    background-color: #a7bab7;
+    background-color: #4db1a2;
     height: 60px;
     width: 60px;
 
     border-style: solid;
     border-width: thin medium medium thin;
+
+    font-size: 42px;
+}
+
+.button:hover {
+    background-color: #358a7c;
 }
 
 .button.long {
     width: 140px;
     border-radius: 15px;
+}
+
+.operator {
+    background-color: #83e9a5;
+}
+
+.operator:hover {
+    background-color: #60b97e;
 }
