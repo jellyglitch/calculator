@@ -65,6 +65,7 @@ body {
 
 .button:hover {
     background-color: #358a7c;
+    cursor: pointer;
 }
 
 .button.long {

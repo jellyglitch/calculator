@@ -34,12 +34,19 @@ let displayNumber = document.querySelectorAll(".number");
 let clearDisplay = document.querySelector(".clear");
 
 let display = document.querySelector("#display-values");
+display.textContent = "0";
+
+function inputNumber(button){
+    display.style.color = "#2d3937";
+    if(display.textContent === "0"){
+        display.textContent = button.textContent;
+    } else {
+        display.textContent = display.textContent+button.textContent;
+    }
+}
 
 displayNumber.forEach(button => {
-    button.addEventListener("click", () => {
-        display.style.color = "#2d3937";
-        display.textContent = button.textContent;
-      });
+    button.addEventListener("click", () => inputNumber(button));
 });
 
 clearDisplay.addEventListener("click", () => {
