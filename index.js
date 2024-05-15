@@ -17,29 +17,37 @@ function divide(a,b){
 let value1;
 let value2;
 let operator;
+let newValue = true;
+let value2Exists = false;
 
-function operate(operator, value1, value2){
+//button references
+let displayNumber = document.querySelectorAll(".number"); 
+let clearDisplay = document.querySelector(".clear"); 
+let operatorButton = document.querySelectorAll(".operator")
+let equalsButton = document.querySelector(".equals")
+
+let display = document.querySelector("#display-values"); //display
+
+function operate(operator, value1, value2){ //check why operated returns undefined
+    let operated;
     if(operator == '+'){
-        add(value1, value2);
+        operated = add(value1, value2);
     } else if(operator == '-'){
-        subtract(value1, value2);
-    } else if(operator == '*'){
-        multiply(value1, value2);
+        operated = subtract(value1, value2);
+    } else if(operator == 'x'){
+        operated = multiply(value1, value2);
     } else if(operator == '/'){
-        divide(value1, value2);
+        operated = divide(value1, value2);
     }
+    display.textContent = operated;
+    return Number(display.textContent);
 }
-
-let displayNumber = document.querySelectorAll(".number");
-let clearDisplay = document.querySelector(".clear");
-
-let display = document.querySelector("#display-values");
-display.textContent = "0";
 
 function inputNumber(button){
     display.style.color = "#2d3937";
-    if(display.textContent === "0"){
+    if(newValue){
         display.textContent = button.textContent;
+        newValue = false;
     } else {
         display.textContent = display.textContent+button.textContent;
     }
@@ -52,4 +60,35 @@ displayNumber.forEach(button => {
 clearDisplay.addEventListener("click", () => {
     display.style.color = "";
     display.textContent = "0";
+    newValue = true;
+    value2Exists = false;
+    value1, value2 = 0;
+    operator = "";
+    operatorButton.forEach(button => button.style.backgroundColor = "");
 })
+
+function equals(){
+    operatorButton.forEach(button => button.style.backgroundColor = "");
+    value2 = Number(display.textContent);
+    operate(operator, value1, value2);
+}
+
+operatorButton.forEach(button => {
+    button.addEventListener("click", () => {
+        if(value2Exists){
+            value2 = Number(display.textContent);
+            operator = button.textContent;
+            value1 = operate(operator, value1, value2);
+            newValue = true;
+        } else {
+            value1 = Number(display.textContent);
+            button.style.backgroundColor = "#d2ffe1"
+            newValue = true;
+            value2Exists = true;
+            operator = button.textContent;
+        }
+    });
+});
+
+equalsButton.addEventListener("click", () => equals());
+
