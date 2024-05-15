@@ -77,9 +77,11 @@ operatorButton.forEach(button => {
     button.addEventListener("click", () => {
         if(value2Exists){
             value2 = Number(display.textContent);
-            operator = button.textContent;
             value1 = operate(operator, value1, value2);
+            operator = button.textContent;
             newValue = true;
+            operatorButton.forEach(button => button.style.backgroundColor = "");
+            button.style.backgroundColor = "#d2ffe1"
         } else {
             value1 = Number(display.textContent);
             button.style.backgroundColor = "#d2ffe1"
