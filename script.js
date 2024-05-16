@@ -57,20 +57,25 @@ displayNumber.forEach(button => {
     button.addEventListener("click", () => inputNumber(button));
 });
 
-clearDisplay.addEventListener("click", () => {
-    display.style.color = "";
-    display.textContent = "0";
+function resetValues(){
     newValue = true;
     value2Exists = false;
     value1, value2 = 0;
     operator = "";
     operatorButton.forEach(button => button.style.backgroundColor = "");
+}
+
+clearDisplay.addEventListener("click", () => {
+    display.style.color = "";
+    display.textContent = "0";
+    resetValues();
 })
 
 function equals(){
     operatorButton.forEach(button => button.style.backgroundColor = "");
     value2 = Number(display.textContent);
     operate(operator, value1, value2);
+    resetValues();
 }
 
 operatorButton.forEach(button => {

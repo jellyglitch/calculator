@@ -1,5 +1,6 @@
 body {
-    background-color: #c4c4c4;
+    background: rgb(34,169,195);
+    background: linear-gradient(0deg, rgba(34,169,195,1) 16%, rgba(173,232,141,1) 100%);
     font-family: "VT323", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -13,7 +14,7 @@ body {
     border-radius: 10px;
     border-style: solid;
     border-width: thin thick thick thin;
-    border-color: #1f4f4d;
+    border-color: #ecfff7 #1f4f4d #1f4f4d #ecfff7;
 
     background-color: #87d9d6;
     width: 24rem;
@@ -29,11 +30,11 @@ body {
     height: 15%;
     margin: 2rem 0 1.5rem 0;
 
-    background-color: #dcdcdc;
+    background-color: #a5cdcd;
     border-radius: 5px;
     border-style: solid;
     border-width: medium medium thin thin;
-    border-color: #1f4f4d;
+    border-color: #1f4f4d #1f4f4d #ecfff7;
 }
 
 #display-values {
@@ -59,7 +60,7 @@ body {
 
     border-style: solid;
     border-width: thin medium medium thin;
-
+    border-color: #ecfff7 #1f4f4d #1f4f4d #ecfff7;
     font-size: 42px;
 }
 
