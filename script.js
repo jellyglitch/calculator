@@ -20,15 +20,14 @@ let operator;
 let newValue = true;
 let value2Exists = false;
 
-//button references
 let displayNumber = document.querySelectorAll(".number"); 
 let clearDisplay = document.querySelector(".clear"); 
 let operatorButton = document.querySelectorAll(".operator")
 let equalsButton = document.querySelector(".equals")
 
-let display = document.querySelector("#display-values"); //display
+let display = document.querySelector("#display-values"); 
 
-function operate(operator, value1, value2){ //check why operated returns undefined
+function operate(operator, value1, value2){ 
     let operated;
     if(operator == '+'){
         operated = add(value1, value2);
@@ -43,7 +42,7 @@ function operate(operator, value1, value2){ //check why operated returns undefin
     return Number(display.textContent);
 }
 
-function inputNumber(button){
+function inputNumber(button){ //displays the numbers pressed 
     display.style.color = "#2d3937";
     if(newValue){
         display.textContent = button.textContent;
@@ -80,18 +79,18 @@ function equals(){
 
 operatorButton.forEach(button => {
     button.addEventListener("click", () => {
-        if(value2Exists){
+        if(value2Exists){ //goes here if the second value is available to operate on
             value2 = Number(display.textContent);
             value1 = operate(operator, value1, value2);
             operator = button.textContent;
             newValue = true;
             operatorButton.forEach(button => button.style.backgroundColor = "");
             button.style.backgroundColor = "#d2ffe1"
-        } else {
+        } else { //goes here if value1 is still being defined
             value1 = Number(display.textContent);
             button.style.backgroundColor = "#d2ffe1"
             newValue = true;
-            value2Exists = true;
+            value2Exists = true; //preps value2 to be defined
             operator = button.textContent;
         }
     });
