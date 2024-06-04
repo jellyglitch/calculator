@@ -11,6 +11,9 @@ function multiply(a,b){
 }
 
 function divide(a,b){
+    if(b == 0){
+        return "nice try"
+    }
     return a/b;
 }
 
@@ -19,36 +22,54 @@ let value2;
 let operator;
 let newValue = true;
 let value2Exists = false;
+let decimal = false;
+let numDisplay = 0;
 
 let displayNumber = document.querySelectorAll(".number"); 
 let clearDisplay = document.querySelector(".clear"); 
-let operatorButton = document.querySelectorAll(".operator")
-let equalsButton = document.querySelector(".equals")
+let operatorButton = document.querySelectorAll(".operator");
+let equalsButton = document.querySelector(".equals");
+let backSpace = document.querySelector("#back");
 
 let display = document.querySelector("#display-values"); 
 
 function operate(operator, value1, value2){ 
     let operated;
+    let factor = Math.pow(10, 8);
     if(operator == '+'){
         operated = add(value1, value2);
     } else if(operator == '-'){
         operated = subtract(value1, value2);
     } else if(operator == 'x'){
         operated = multiply(value1, value2);
-    } else if(operator == '/'){
+    } else if(operator == '÷'){
         operated = divide(value1, value2);
     }
+    operated = Math.round(operated*factor)/factor;
     display.textContent = operated;
-    return Number(display.textContent);
+    return display.textContent;
 }
 
 function inputNumber(button){ //displays the numbers pressed 
     display.style.color = "#2d3937";
+
     if(newValue){
-        display.textContent = button.textContent;
         newValue = false;
+        numDisplay = 0;
+        numDisplay++;
+        if(button.textContent != '.'){
+            display.textContent = button.textContent;
+        } else {
+            display.textContent = '0.'
+        }
     } else {
-        display.textContent = display.textContent+button.textContent;
+        if(button.textContent == '.' && decimal == true ){ 
+            //do nothing
+        } else if (numDisplay < 9){
+            if(button.textContent == '.') decimal = true; 
+            display.textContent = display.textContent+button.textContent;
+            numDisplay++;
+        }
     }
 }
 
@@ -60,7 +81,9 @@ function resetValues(){
     newValue = true;
     value2Exists = false;
     value1, value2 = 0;
+    decimal = false;
     operator = "";
+    numDisplay = 0;
     operatorButton.forEach(button => button.style.backgroundColor = "");
 }
 
@@ -97,4 +120,8 @@ operatorButton.forEach(button => {
 });
 
 equalsButton.addEventListener("click", () => equals());
+
+backSpace.addEventListener("click", () => {
+    display.textContent = display.textContent.slice(0,-1);
+})
 
