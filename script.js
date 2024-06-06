@@ -44,6 +44,8 @@ function operate(operator, value1, value2){
         operated = multiply(value1, value2);
     } else if(operator == '÷'){
         operated = divide(value1, value2);
+        display.textContent = operated;
+        return display.textContent;
     }
     operated = Math.round(operated*factor)/factor;
     display.textContent = operated;
@@ -104,7 +106,7 @@ operatorButton.forEach(button => {
     button.addEventListener("click", () => {
         if(value2Exists){ //goes here if the second value is available to operate on
             value2 = Number(display.textContent);
-            value1 = operate(operator, value1, value2);
+            value1 = Number(operate(operator, value1, value2));
             operator = button.textContent;
             newValue = true;
             operatorButton.forEach(button => button.style.backgroundColor = "");
