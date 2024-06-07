@@ -1,6 +1,8 @@
 body {
     background: rgb(34,169,195);
     background: linear-gradient(0deg, rgba(34,169,195,1) 16%, rgba(173,232,141,1) 100%);
+    min-height: 100vh;
+    background-size: cover;
     font-family: "VT323", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
