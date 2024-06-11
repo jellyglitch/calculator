@@ -44,12 +44,14 @@ function operate(operator, value1, value2){
         operated = multiply(value1, value2);
     } else if(operator == '÷'){
         operated = divide(value1, value2);
-        display.textContent = operated;
-        return display.textContent;
+        if(value2 == 0){
+            display.textContent = operated;
+            return display.textContent;
+        }
+        
     }
     operated = Math.round(operated*factor)/factor;
     display.textContent = operated;
-    return display.textContent;
 }
 
 function inputNumber(button){ //displays the numbers pressed 
@@ -112,6 +114,7 @@ operatorButton.forEach(button => {
             operatorButton.forEach(button => button.style.backgroundColor = "");
             button.style.backgroundColor = "#d2ffe1"
         } else { //goes here if value1 is still being defined
+            decimal = false;
             value1 = Number(display.textContent);
             button.style.backgroundColor = "#d2ffe1"
             newValue = true;
