@@ -49,9 +49,12 @@ function operate(operator, value1, value2){
             return display.textContent;
         }
         
+    } else {
+        operated = value2;
     }
     operated = Math.round(operated*factor)/factor;
     display.textContent = operated;
+    return operated;
 }
 
 function inputNumber(button){ //displays the numbers pressed 
