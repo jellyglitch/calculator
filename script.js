@@ -42,7 +42,7 @@ function operate(operator, value1, value2){
         operated = subtract(value1, value2);
     } else if(operator == 'x'){
         operated = multiply(value1, value2);
-    } else if(operator == '÷'){
+    } else if(operator == '÷' || operator == '/'){
         operated = divide(value1, value2);
         if(value2 == 0){
             display.textContent = operated;
@@ -84,6 +84,24 @@ displayNumber.forEach(button => {
     button.addEventListener("click", () => inputNumber(button));
 });
 
+document.addEventListener("keydown", (event) => {
+    let button = document.createElement('button');
+    const key = event.key;
+    let str = `${key}`;
+    button.textContent = str;
+
+    if(!isNaN(key) || key == '.'){
+        inputNumber(button);
+    } else if (key == '+' || key == '-' || key == '/' || key == 'x'){
+        operateHandler(button);
+    } else if (key == '='){
+        equals();
+    } else if (key == 'Backspace'){
+        back();
+    }
+    
+});
+
 function resetValues(){
     newValue = true;
     value2Exists = false;
@@ -107,29 +125,33 @@ function equals(){
     resetValues();
 }
 
+function operateHandler(button){
+    if(value2Exists){ //goes here if the second value is available to operate on
+        value2 = Number(display.textContent);
+        value1 = Number(operate(operator, value1, value2));
+        operator = button.textContent;
+        newValue = true;
+        operatorButton.forEach(button => button.style.backgroundColor = "");
+        button.style.backgroundColor = "#d2ffe1"
+    } else { //goes here if value1 is still being defined
+        decimal = false;
+        value1 = Number(display.textContent);
+        button.style.backgroundColor = "#d2ffe1"
+        newValue = true;
+        value2Exists = true; //preps value2 to be defined
+        operator = button.textContent;
+    }
+}
+
 operatorButton.forEach(button => {
-    button.addEventListener("click", () => {
-        if(value2Exists){ //goes here if the second value is available to operate on
-            value2 = Number(display.textContent);
-            value1 = Number(operate(operator, value1, value2));
-            operator = button.textContent;
-            newValue = true;
-            operatorButton.forEach(button => button.style.backgroundColor = "");
-            button.style.backgroundColor = "#d2ffe1"
-        } else { //goes here if value1 is still being defined
-            decimal = false;
-            value1 = Number(display.textContent);
-            button.style.backgroundColor = "#d2ffe1"
-            newValue = true;
-            value2Exists = true; //preps value2 to be defined
-            operator = button.textContent;
-        }
-    });
+    button.addEventListener("click", () => operateHandler(button));
 });
 
 equalsButton.addEventListener("click", () => equals());
 
-backSpace.addEventListener("click", () => {
+function back(){
     display.textContent = display.textContent.slice(0,-1);
-})
+}
+
+backSpace.addEventListener("click", () => back());
 
