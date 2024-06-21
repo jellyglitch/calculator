@@ -22,68 +22,84 @@ let value2;
 let operator;
 let newValue = true;
 let value2Exists = false;
-let decimal = false;
+let hasDecimal = false;
 let numDisplay = 0;
 
-let displayNumber = document.querySelectorAll(".number"); 
-let clearDisplay = document.querySelector(".clear"); 
+let numberButtons = document.querySelectorAll(".number"); 
+let clearButton = document.querySelector("#clear"); 
 let operatorButton = document.querySelectorAll(".operator");
-let equalsButton = document.querySelector(".equals");
-let backSpace = document.querySelector("#back");
+let equalsButton = document.querySelector("#equals");
+let backSpaceButton = document.querySelector("#back");
 
 let display = document.querySelector("#display-values"); 
 
 function operate(operator, value1, value2){ 
-    let operated;
-    let factor = Math.pow(10, 8);
+    let answer;
+    let factor = Math.pow(10, 8); //number of digits to display on screen is limited by this factor
+
     if(operator == '+'){
-        operated = add(value1, value2);
+        answer = add(value1, value2);
     } else if(operator == '-'){
-        operated = subtract(value1, value2);
+        answer = subtract(value1, value2);
     } else if(operator == 'x'){
-        operated = multiply(value1, value2);
+        answer = multiply(value1, value2);
     } else if(operator == '÷' || operator == '/'){
-        operated = divide(value1, value2);
         if(value2 == 0){
-            display.textContent = operated;
+            display.textContent = answer;
             return display.textContent;
         }
+        answer = divide(value1, value2);
         
     } else {
-        operated = value2;
+        answer = value2;
     }
-    operated = Math.round(operated*factor)/factor;
-    display.textContent = operated;
-    return operated;
+    answer = Math.round(answer*factor)/factor;
+    display.textContent = answer;
+    return answer;
 }
 
+/** 
+ * Updates the display with the text content of the button clicked.
+ *
+ * @param {Element} button - The number button element that was clicked.
+ */
 function inputNumber(button){ //displays the numbers pressed 
-    display.style.color = "#2d3937";
+    display.style.color = "#2d3937"; 
 
-    if(newValue){
-        newValue = false;
-        numDisplay = 0;
-        numDisplay++;
-        if(button.textContent != '.'){
-            display.textContent = button.textContent;
+    if(newValue){ //if it's the first digit of a new value
+        hasDecimal = false;
+        numDisplay = 0; //digits on display (max 8)
+        
+        if(button.textContent == '.'){
+            display.textContent = '0.';
+            hasDecimal = true;
         } else {
-            display.textContent = '0.'
+            display.textContent = button.textContent;
         }
-    } else {
-        if(button.textContent == '.' && decimal == true ){ 
-            //do nothing
-        } else if (numDisplay < 9){
-            if(button.textContent == '.') decimal = true; 
-            display.textContent = display.textContent+button.textContent;
-            numDisplay++;
-        }
+
+        numDisplay++;
+        newValue = false;
+
+    } else if (numDisplay < 9){
+        
+        if(button.textContent == '.' && hasDecimal == true ) return; //prevents adding multiple decimals
+        if(button.textContent == '.') hasDecimal = true; //first decimal to input
+
+        display.textContent = display.textContent+button.textContent;
+        numDisplay++;
+        
     }
 }
 
-displayNumber.forEach(button => {
+numberButtons.forEach(button => {
     button.addEventListener("click", () => inputNumber(button));
 });
 
+/** 
+ * Handles the keydown event when using keyboard for input
+ *
+ * @param {Event} event - the keydown event
+ */
 document.addEventListener("keydown", (event) => {
     let button = document.createElement('button');
     const key = event.key;
@@ -105,19 +121,28 @@ document.addEventListener("keydown", (event) => {
 function resetValues(){
     newValue = true;
     value2Exists = false;
-    value1, value2 = 0;
-    decimal = false;
+    value1 = 0;
+    value2 = 0;
+    hasDecimal = false;
     operator = "";
-    numDisplay = 0;
     operatorButton.forEach(button => button.style.backgroundColor = "");
 }
 
-clearDisplay.addEventListener("click", () => {
+/** 
+ * Handles the click event for the clear button
+ *
+ * @param {Event} event - the click event
+ */
+clearButton.addEventListener("click", () => {
     display.style.color = "";
     display.textContent = "0";
     resetValues();
 })
 
+/*
+ * Given two values and an operator, it evaluates the answer
+ *
+ */
 function equals(){
     operatorButton.forEach(button => button.style.backgroundColor = "");
     value2 = Number(display.textContent);
@@ -125,21 +150,25 @@ function equals(){
     resetValues();
 }
 
+/** 
+ * Handles the preparation of operating on value1 and value2
+ *
+ * @param {Element} button - The operator button element that was clicked.
+ */
 function operateHandler(button){
-    if(value2Exists){ //goes here if the second value is available to operate on
+    if(!value2Exists){ //value1 hasn't been defined yet
+        button.style.backgroundColor = "#d2ffe1"
+        newValue = true;
+        value1 = Number(display.textContent);
+        value2Exists = true; //preps value2 to be defined next
+        operator = button.textContent; //defined to allow chaining of operations before equals is pressed
+    } else { //value1 and value2 are ready to be operated on
         value2 = Number(display.textContent);
-        value1 = Number(operate(operator, value1, value2));
+        value1 = Number(operate(operator, value1, value2)); //operates if operator button was pressed more than once before equals button
         operator = button.textContent;
         newValue = true;
         operatorButton.forEach(button => button.style.backgroundColor = "");
         button.style.backgroundColor = "#d2ffe1"
-    } else { //goes here if value1 is still being defined
-        decimal = false;
-        value1 = Number(display.textContent);
-        button.style.backgroundColor = "#d2ffe1"
-        newValue = true;
-        value2Exists = true; //preps value2 to be defined
-        operator = button.textContent;
     }
 }
 
@@ -153,5 +182,5 @@ function back(){
     display.textContent = display.textContent.slice(0,-1);
 }
 
-backSpace.addEventListener("click", () => back());
+backSpaceButton.addEventListener("click", () => back());
 
