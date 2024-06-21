@@ -11,9 +11,6 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-    if(b == 0){
-        return "nice try"
-    }
     return a/b;
 }
 
@@ -45,7 +42,7 @@ function operate(operator, value1, value2){
         answer = multiply(value1, value2);
     } else if(operator == '÷' || operator == '/'){
         if(value2 == 0){
-            display.textContent = answer;
+            display.textContent = "nice try";
             return display.textContent;
         }
         answer = divide(value1, value2);
